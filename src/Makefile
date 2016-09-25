@@ -1,11 +1,16 @@
 include config.mk
 
-all: linux
+all: linux_get linux_install
 
-linux:
-	git clone ${LINUXGIT} ./linux/
-	cd ./linux/ && \
+linux_get:
+	mkdir -p ./linux
+	-git clone ${LINUXGIT} ./linux
+
+linux_install:
+	mkdir -p ../boot
+	cd ./linux && \
+		git pull && \
 		make defconfig && \
-		make && \
-		INSTALL_PATH=../boot/ make install && \
-		INSTAL_MOD_PATH=../ make modules_install
+		make -j4 && \
+		INSTALL_PATH=../../boot make install && \
+		INSTALL_MOD_PATH=../.. make modules_install
