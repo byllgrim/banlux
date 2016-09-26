@@ -1,6 +1,6 @@
 include config.mk
 
-all: linux_get linux_install
+all: linux_get linux_install pkgsrc
 
 linux_get:
 	mkdir -p ./linux
@@ -14,3 +14,7 @@ linux_install:
 		make -j4 && \
 		INSTALL_PATH=../../boot make install && \
 		INSTALL_MOD_PATH=../.. make modules_install
+
+pkgsrc:
+	cd .. && \
+		cvs -d ${PKGSRCCVS} checkout pkgsrc
